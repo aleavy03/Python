@@ -1,0 +1,26 @@
+def categorize_age(age):
+    if 1 <= age <= 3:
+        return "toddler"
+    elif 4 <= age <= 12:
+        return "child"
+    elif 13 <= age <= 19:
+        return "teenager"
+    elif 20 <= age <= 59:
+        return "adult"
+    elif age >= 60:
+        return "senior"
+    else:
+        return "Invalid age"
+
+def main():
+    try:
+        name = input("Enter a name: ")
+
+        age = int(input(f"How old is {name}: "))
+        category = categorize_age(age)
+        print(f"{name} is a/an {category}.")
+    except ValueError:
+        print("Invalid input. Please enter a valid age.")
+
+if __name__ == "__main__":
+    main()
