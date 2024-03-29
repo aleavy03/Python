@@ -1,0 +1,28 @@
+def is_prime(num):
+    if num <= 1:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+def find_primes_in_range(start, end):
+    primes = []
+    for num in range(start, end + 1):
+        if is_prime(num):
+            primes.append(num)
+    return primes
+
+#Get user input for range
+start_range = int(input("Enter the starting number of the range:"))
+end_range = int(input("Enter the ending number of the range:"))
+
+#Ensure the end range is greater than or equal to start range
+if end_range < start_range:
+    print("Error: Ending number must be greater than or equal to starting number.")
+    exit()
+
+prime_numbers = find_primes_in_range(start_range, end_range)
+
+print("Prime numbers between", start_range, "and", end_range, "are:")
+print(prime_numbers)
