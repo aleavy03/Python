@@ -13,10 +13,14 @@ def find_primes_in_range(start, end):
             primes.append(num)
     return primes
 
-#Get user input for range
-start_range = int(input("Enter the starting number of the range:"))
-end_range = int(input("Enter the ending number of the range:"))
-
+#Get user input for range with error handling
+while True:
+    try:
+        start_range = int(input("Enter the starting number of the range:"))
+        end_range = int(input("Enter the ending number of the range:"))
+        break
+    except ValueError:
+        print("That input is invalid. Please enter valid integers.")
 #Ensure the end range is greater than or equal to start range
 if end_range < start_range:
     print("Error: Ending number must be greater than or equal to starting number.")
