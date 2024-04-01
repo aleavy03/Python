@@ -1,7 +1,11 @@
 def is_prime(num):
     if num <= 1:
         return False
-    for i in range(2, int(num**0.5) + 1):
+    if num == 2:
+        return True
+    if num % 2 ==0:
+        return False
+    for i in range(3, int(num**0.5) + 1, 2):
         if num % i == 0:
             return False
     return True
@@ -18,9 +22,12 @@ while True:
     try:
         start_range = int(input("Enter the starting number of the range:"))
         end_range = int(input("Enter the ending number of the range:"))
+        if start_range < 0 or end_range < 0:
+            raise ValueError ("Error: Please enter a positive number.")
         break
-    except ValueError:
-        print("That input is invalid. Please enter valid integers.")
+    except ValueError as e:
+        print (e)
+        print("That number is a negative number. Please enter a positive number.")
 #Ensure the end range is greater than or equal to start range
 if end_range < start_range:
     print("Error: Ending number must be greater than or equal to starting number.")
