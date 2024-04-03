@@ -1,0 +1,41 @@
+def word_frequency(sentence):
+    #Split the sentence into words
+    words = sentence.split()
+
+    #Initialize an empty dictionary to store word frequencies
+    word_freq = {}
+
+    #Count the frequency of each word
+    for word in words:
+        
+        #Check if the words contain numbers
+        if any(char.isdigit() for char in word):
+            print("Error: Numbers are not allowed. Please use words only")
+            return None
+        
+        #Remove punctuation marks
+        word = word.strip(",.?!;:'\"")
+        #Increment the count of the word in the dictionary
+        word_freq[word] = word_freq.get(word, 0) + 1
+
+    return word_freq
+
+def main():
+    #Input a sentence
+    sentence = input("Please enter a sentence, or some words. Don't hesitate to repeat a few: ")
+
+    #Count word frequency
+    frequency_dict = word_frequency(sentence)
+
+    #If there was an error in the input, exit the program
+    if frequency_dict is None:
+        return
+    
+    #Display the word frequency dictionary
+    print("\nWord Frequency:")
+    for word, freq in frequency_dict.items():
+        print(f"{word}: {freq}")
+
+    
+if __name__ == "__main__":
+    main()
