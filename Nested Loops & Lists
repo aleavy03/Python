@@ -1,0 +1,42 @@
+import random
+
+def generate_matrix(rows, cols, min_val, max_val):
+    return [[random.randint(min_val, max_val) for _ in range(cols)] for _ in range(rows)]
+
+def calculate_sums(matrix):
+    # Calculate the sum of each row
+    row_sums = [sum(row) for row in matrix]
+
+    # Calculate the sum of each column
+    col_sums = [sum(col) for col in zip(*matrix)]
+
+    # Calculate the sum of the main diagonal (top-left to bottom-right)
+    main_diagonal_sum = sum(matrix[i][i] for i in range(min(len(matrix), len(matrix[0]))))
+
+    # Calculate the sum of the secondary diagonal (top-right to bottom-left)
+    secondary_diagonal_sum = sum(matrix[i][len(matrix) - 1 - i] for i in range(min(len(matrix), len(matrix[0]))))
+
+    return row_sums, col_sums, main_diagonal_sum, secondary_diagonal_sum
+
+def print_results(matrix, row_sums, col_sums, main_diagonal_sum, secondary_diagonal_sum):
+    print("Matrix:")
+    for row in matrix:
+        print(row)
+
+    print("\nSum of each row:", row_sums)
+    print("Sum of each column:", col_sums)
+    print("Sum of main diagonal:", main_diagonal_sum)
+    print("Sum of secondary diagonal:", secondary_diagonal_sum)
+
+def main():
+    rows = int(input("Enter the number of rows: "))
+    cols = int(input("Enter the number of columns: "))
+    min_val = int(input("Enter the minimum value for random numbers: "))
+    max_val = int(input("Enter the maximum value for random numbers: "))
+
+    matrix = generate_matrix(rows, cols, min_val, max_val)
+    row_sums, col_sums, main_diagonal_sum, secondary_diagonal_sum = calculate_sums(matrix)
+    print_results(matrix, row_sums, col_sums, main_diagonal_sum, secondary_diagonal_sum)
+
+if __name__ == "__main__":
+    main()
