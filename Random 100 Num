@@ -1,0 +1,17 @@
+import random
+
+# Generate an array of 10 random integers between 1 and 100
+scores = [random.randint(1, 100) for _ in range(10)]
+
+# Output the scores
+print("Scores:", ", ".join(map(str, scores)))
+
+# Calculate minimum, maximum, and average
+min_score = min(scores)
+max_score = max(scores)
+avg_score = sum(scores) / len(scores)
+
+# Output the results
+print("Lowest score:", min_score)
+print("Highest score:", max_score)
+print("Average score:", f"{avg_score:.2f}") 
