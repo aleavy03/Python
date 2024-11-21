@@ -1,0 +1,43 @@
+import os
+
+def convert_size(size_bytes):
+    """
+    Convert a size in bytes to a more human-readable format.
+    """
+    if size_bytes == 0:
+        return "0B"
+    
+    # Define size units
+    size_units = ["B", "KB", "MB", "GB", "TB", "PB"]
+    i = 0
+    
+    # Loop to find the appropriate unit
+    while size_bytes >= 1024 and i < len(size_units) - 1:
+        size_bytes /= 1024.0
+        i += 1
+    
+    # Format the size to 2 decimal places
+    return f"{size_bytes:.2f} {size_units[i]}"
+
+def list_files_and_directories():
+    # Get the current working directory
+    current_dir = os.getcwd()
+    
+    # Iterate through all files and directories in the current directory
+    for item in os.listdir(current_dir):
+        # Get the full path
+        item_path = os.path.join(current_dir, item)
+        
+        # Check if it is a file or directory
+        if os.path.isfile(item_path):
+            # Get the size of the file
+            size = os.path.getsize(item_path)
+            print(f"File: {item} - Size: {convert_size(size)}")
+        elif os.path.isdir(item_path):
+            # Get the size of the directory
+            size = sum(os.path.getsize(os.path.join(dirpath, f))
+                       for dirpath, _, filenames in os.walk(item_path) for f in filenames)
+            print(f"Directory: {item} - Size: {convert_size(size)}")
+
+# Run the function
+list_files_and_directories()
