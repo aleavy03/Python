@@ -1,0 +1,28 @@
+from datetime import datetime, timedelta
+
+def get_days_until_birthday():
+    # Ask user for their birthday
+    birthday_str = input("Enter your birthday (format: MM-DD): ")
+
+    try:
+        # Parse the birthday into a datetime object, using the current year
+        current_year = datetime.now().year
+        birthday = datetime.strptime(f"{current_year}-{birthday_str}", "%Y-%m-%d")
+
+        # Get today's date
+        today = datetime.now()
+
+        # If birthday this year has already passed, use the next year
+        if birthday < today:
+            birthday = datetime.strptime(f"{current_year + 1}-{birthday_str}", "%Y-%m-%d")
+
+        # Calculate the difference in days
+        days_until_birthday = (birthday - today).days
+
+        print(f"Your birthday is in {days_until_birthday} days!")
+
+    except ValueError:
+        print("Invalid date format. Please use MM-DD format.")
+
+# Run the function
+get_days_until_birthday()
