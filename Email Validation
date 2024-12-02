@@ -1,0 +1,24 @@
+import re
+
+def validate_email(email):
+    # Define the regex pattern for a valid email address
+    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$'
+    return bool(re.match(pattern, email))
+
+# Test cases
+test_emails = [
+    "test@example.com",        # Valid
+    "user.name+tag@domain.co", # Valid
+    "user@sub.domain.org",     # Valid
+    "user@domain",             # Invalid (no TLD)
+    "user@.com",               # Invalid (no domain name)
+    "@domain.com",             # Invalid (no local part)
+    "user@domain..com",        # Invalid (double dot in domain)
+    "user@domain.com ",        # Invalid (trailing space)
+    " user@domain.com",        # Invalid (leading space)
+    "user@@domain.com",        # Invalid (double @)
+]
+
+# Check each email and print whether it's valid
+for email in test_emails:
+    print(f"{email!r} is {'valid' if validate_email(email) else 'invalid'}")
