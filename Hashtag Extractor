@@ -1,0 +1,25 @@
+import re
+
+def extract_hashtags(tweet):
+    # Regular expression to find hashtags
+    hashtag_pattern = r'#\w+'
+    hashtags = re.findall(hashtag_pattern, tweet)
+    return hashtags
+
+def main():
+    print("Hashtag Extractor")
+    print("=================")
+    
+    # Option for the user to input a tweet
+    user_input = input("Enter a tweet or text with hashtags: ")
+    
+    # Extract hashtags
+    hashtags = extract_hashtags(user_input)
+    
+    if hashtags:
+        print("\nExtracted Hashtags:", hashtags)
+    else:
+        print("\nNo hashtags found in the provided text.")
+
+if __name__ == "__main__":
+    main()
