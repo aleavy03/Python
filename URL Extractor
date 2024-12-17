@@ -1,0 +1,43 @@
+import re
+
+def find_urls(text):
+    # Regular expression to match URLs starting with http:// or https://
+    url_pattern = r'https?://[^\s,]+'
+    urls = re.findall(url_pattern, text)
+    return urls
+
+def main():
+    print("URL Extractor Program")
+    print("=====================\n")
+    print("1. Use default text")
+    print("2. Enter your own text\n")
+    
+    choice = input("Choose an option (1 or 2): ").strip()
+    
+    if choice == "1":
+        # Default text
+        text = """
+        Check out our website at http://www.example.com. 
+        For secure access, use https://secure.example.com. 
+        Avoid http://phishing.example.com, it's a known malicious site.
+        """
+    elif choice == "2":
+        # User input text
+        print("\nEnter your text below. Press Enter when done:")
+        text = input("Your text: ")
+    else:
+        print("Invalid option! Exiting program.")
+        return
+    
+    # Find and display URLs
+    urls = find_urls(text)
+    
+    if urls:
+        print("\nFound URLs:")
+        for url in urls:
+            print(url)
+    else:
+        print("\nNo URLs found in the given text.")
+
+if __name__ == "__main__":
+    main()
