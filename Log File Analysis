@@ -1,0 +1,41 @@
+import re
+
+def extract_logs_for_date(log_file_path, target_date):
+    """
+    Extracts log entries for a specified date from the log file.
+    
+    Args:
+        log_file_path (str): Path to the log file.
+        target_date (str): Date in 'YYYY-MM-DD' format to search for in logs.
+    """
+    try:
+        with open(log_file_path, 'r') as file:
+            log_entries = file.readlines()
+    except FileNotFoundError:
+        print("Error: Log file not found.")
+        return
+    
+    # Regular expression to match log lines containing the target date
+    date_pattern = re.compile(rf"^\[{target_date} \d{{2}}:\d{{2}}:\d{{2}}\].*")
+    
+    print(f"\nLog entries for date: {target_date}")
+    found_entries = False
+
+    for line in log_entries:
+        if date_pattern.match(line):
+            print(line.strip())
+            found_entries = True
+
+    if not found_entries:
+        print(f"No log entries found for the date {target_date}.")
+
+if __name__ == "__main__":
+    # Input: path to the log file and target date
+    log_file_path = input("Enter the path to the log file: ").strip()
+    target_date = input("Enter the date to search for (YYYY-MM-DD): ").strip()
+    
+    # Validate date format
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", target_date):
+        print("Invalid date format. Please use YYYY-MM-DD.")
+    else:
+        extract_logs_for_date(log_file_path, target_date)
