@@ -1,0 +1,39 @@
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the quotes website
+URL = "http://quotes.toscrape.com"
+
+def scrape_quotes(url):
+    quotes_list = []
+    
+    while url:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # Extracting quotes
+        quotes = soup.find_all("div", class_="quote")
+        for quote in quotes:
+            text = quote.find("span", class_="text").get_text()
+            author = quote.find("small", class_="author").get_text()
+            tags = [tag.get_text() for tag in quote.find_all("a", class_="tag")]
+
+            quotes_list.append({
+                "quote": text,
+                "author": author,
+                "tags": tags
+            })
+
+        # Check if there's a next page
+        next_page = soup.find("li", class_="next")
+        url = URL + next_page.a["href"] if next_page else None
+    
+    return quotes_list
+
+# Fetch and print quotes
+quotes_data = scrape_quotes(URL)
+
+for quote in quotes_data:
+    print(f"\"{quote['quote']}\"")
+    print(f"  - {quote['author']}")
+    print(f"  Tags: {', '.join(quote['tags'])}\n")
