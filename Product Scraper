@@ -32,21 +32,10 @@ def get_product_details(product_url):
     except AttributeError:
         description = "N/A"
     
-    try:
-        # Extract availability while handling extra whitespace
-        availability_div = soup.select_one("div.availability-msg-text")
-        if availability_div:
-            availability = availability_div.get_text(separator=" ", strip=True)
-        else:
-            availability = "N/A"
-    except AttributeError:
-        availability = "N/A"
-
     return {
         "title": title,
         "price": price,
         "description": description,
-        "availability": availability,
         "url": product_url
     }
 
