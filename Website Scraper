@@ -1,0 +1,37 @@
+import requests
+from bs4 import BeautifulSoup
+
+def get_news_headlines(url, headline_tag, headline_class=None):
+    try:
+        # Send a request to the website with a user-agent to bypass restrictions
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an error for bad status codes
+
+        # Parse the HTML content
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Find all headlines based on the correct tag and class
+        if headline_class:
+            headlines = soup.find_all(headline_tag, class_=headline_class)
+        else:
+            headlines = soup.find_all(headline_tag)
+
+        # Print the headlines
+        print("News Headlines:")
+        for idx, headline in enumerate(headlines, start=1):
+            print(f"{idx}. {headline.get_text(strip=True)}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Issue connecting to websit: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Use the correct tag and class from your provided HTML
+news_url = "https://www.bbc.com/news"  # Change to the correct news URL if needed
+headline_tag = "h2"  # Based on your provided HTML
+headline_class = "sc-8ea7699c-3 dhclWg"  # Based on your provided HTML
+
+get_news_headlines(news_url, headline_tag, headline_class)
