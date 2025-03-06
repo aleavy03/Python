@@ -1,34 +1,47 @@
 import requests
+from datetime import datetime, timedelta
 
 def fetch_recent_games(league="nba"):
-    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{league}/scoreboard"
+    # Get yesterday's date in YYYYMMDD format
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y%m%d")
     
+    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/{league}/scoreboard?dates={yesterday}"
     response = requests.get(url)
+
     if response.status_code != 200:
         print("Error fetching data")
         return
-    
+
     data = response.json()
-    
     events = data.get("events", [])
+
     if not events:
-        print("No recent games found.")
+        print("No completed games available for", yesterday)
         return
-    
-    print(f"Recent {league.upper()} Games:\n")
-    
+
+    print(f"Recent {league.upper()} Games ({yesterday}):\n")
+
+    games_found = False  # Flag to check if we have valid games
+
     for event in events:
         game = event["competitions"][0]
         teams = game["competitors"]
-        team1 = teams[0]
-        team2 = teams[1]
-        
-        team1_name = team1["team"]["displayName"]
-        team2_name = team2["team"]["displayName"]
-        team1_score = team1["score"]
-        team2_score = team2["score"]
-        
-        print(f"{team1_name} {team1_score} - {team2_score} {team2_name}")
+        game_status = game["status"]["type"]["name"]  # e.g., "STATUS_FINAL"
+
+        if game_status == "STATUS_FINAL":  # Only include finished games
+            games_found = True
+            team1 = teams[0]
+            team2 = teams[1]
+
+            team1_name = team1["team"]["displayName"]
+            team2_name = team2["team"]["displayName"]
+            team1_score = team1["score"]
+            team2_score = team2["score"]
+
+            print(f"{team1_name} {team1_score} - {team2_score} {team2_name}")
+
+    if not games_found:
+        print("No completed games available for", yesterday)
 
 if __name__ == "__main__":
     fetch_recent_games()
